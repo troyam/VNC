@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VNC Viewer</title>
+</head>
+<body>
+    <h1>Controle VNC</h1>
+    <canvas id="vncCanvas" width="800" height="600" style="border:1px solid black;"></canvas>
+    <script>
+        const canvas = document.getElementById('vncCanvas');
+        const context = canvas.getContext('2d');
+        const socket = new WebSocket('ws://localhost:3000');
+
+        // Manipulação de eventos WebSocket
+        socket.binaryType = 'arraybuffer';
+
+        socket.onmessage = function(event) {
+            const imageData = new Uint8Array(event.data);
+            // Renderize os dados do VNC no canvas aqui (depende do formato do protocolo RFB).
+        };
+
+        canvas.addEventListener('mousedown', (e) => {
+            // Enviar eventos de mouse para o servidor VNC
+            const data = new Uint8Array([e.offsetX, e.offsetY]); // Exemplo simplificado
+            socket.send(data);
+        });
+
+        // Outros eventos, como teclado, podem ser adicionados aqui
+    </script>
+</body>
+</html>
